@@ -140,7 +140,7 @@
   }
 
   // --- Google Analytics Injector ---
-  const analyticsID = "G-XXXXXXXXXX"; // Replace with your GA4 ID
+  const analyticsID = "G-8CJ4YJYMSV"; // Replace with your GA4 ID
   if (analyticsID) {
     const gtagScript = document.createElement("script");
     gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsID}`;
@@ -157,3 +157,81 @@
     document.head.appendChild(configScript);
   }
 })();
+
+<!-- ✅ MaxClickEmpire Full SEO Structured Data Injection -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+
+    /* 📝 BlogPosting Schema */
+    {
+      "@type": "BlogPosting",
+      "headline": "MaxClickEmpire – Affiliate Marketing, Google Docs Templates, AI Tools",
+      "description": "MaxClickEmpire empowers creators and marketers with proven affiliate marketing strategies, AI-powered productivity tools, Google Docs resume & planner templates, blogging monetization hacks, SEO tips, and digital business blueprints.",
+      "author": {
+        "@type": "Person",
+        "name": "Ogunlana Akinola Okikiola"
+      },
+      "datePublished": "2025-06-25T00:00:00Z",
+      "dateModified": "2025-06-25T00:00:00Z",
+      "image": "https://www.maxclickempire.com/favicon.ico",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.maxclickempire.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MaxClickEmpire",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.maxclickempire.com/favicon.ico"
+        }
+      }
+    },
+
+    /* 🧭 BreadcrumbList Schema */
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.maxclickempire.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog Post Title",
+          "item": "https://www.maxclickempire.com/2025/06/example-blog-post.html"
+        }
+      ]
+    },
+
+    /* ❓ FAQPage Schema */
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is MaxClickEmpire?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MaxClickEmpire is a platform providing affiliate marketing strategies, Google Docs tools, and productivity guides."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I make money with MaxClickEmpire?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can follow guides on monetization, use Google Docs templates, and learn affiliate strategies."
+          }
+        }
+      ]
+    }
+
+  ]
+}
+</script>
