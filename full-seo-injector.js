@@ -1,8 +1,10 @@
-// Blogger Ultra SEO & Engagement Injector (Improved)
+// ✅ Blogger Ultra SEO & Engagement Injector – MaxClickEmpire
 (function () {
+  // --- Utility Helpers ---
   const getText = (selector) => document.querySelector(selector)?.innerText?.trim() || "";
   const getAttr = (selector, attr) => document.querySelector(selector)?.getAttribute(attr) || "";
 
+  // --- Basic Page Info ---
   const title = getText("h1.post-title") || document.title || "MaxClickEmpire – Affiliate Marketing, Google Docs Templates, AI Tools";
   const description = document.querySelector("meta[name='description']")?.content?.trim() || "MaxClickEmpire empowers creators and marketers with proven affiliate marketing strategies, AI-powered productivity tools, Google Docs resume & planner templates, blogging monetization hacks, SEO tips, and digital business blueprints.";
   const url = window.location.href;
@@ -13,13 +15,16 @@
   const modifiedTime = new Date().toISOString();
   const isHome = location.pathname === "/";
 
-  // --- Remove Existing Conflicting Meta Tags ---
-  const metaNames = ["og:title", "og:description", "og:url", "og:type", "twitter:title", "twitter:description", "twitter:image", "twitter:card"];
+  // --- 🔁 Remove Conflicting Existing Meta Tags ---
+  const metaNames = [
+    "og:title", "og:description", "og:url", "og:type",
+    "twitter:title", "twitter:description", "twitter:image", "twitter:card"
+  ];
   metaNames.forEach(name => {
     document.querySelectorAll(`meta[property='${name}'], meta[name='${name}']`).forEach(el => el.remove());
   });
 
-  // --- Meta Tag Injection ---
+  // --- 🔗 Inject Clean Open Graph & Twitter Meta Tags ---
   const metas = [
     { name: "description", content: description },
     { name: "author", content: author },
@@ -39,7 +44,7 @@
     document.head.appendChild(meta);
   });
 
-  // --- JSON-LD BlogPosting Schema ---
+  // --- 📘 JSON-LD BlogPosting Schema (Dynamic) ---
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -61,7 +66,7 @@
   blogScript.textContent = JSON.stringify(blogSchema);
   document.head.appendChild(blogScript);
 
-  // --- FAQ Schema Markup ---
+  // --- ❓ FAQPage Schema (Static) ---
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -89,7 +94,33 @@
   faqScript.textContent = JSON.stringify(faqSchema);
   document.head.appendChild(faqScript);
 
-  // --- Dynamic Table of Contents ---
+  // --- 🧭 Breadcrumb Schema (Optional Static for Posts) ---
+  if (!isHome) {
+    const breadcrumb = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.maxclickempire.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": document.title,
+          "item": url
+        }
+      ]
+    };
+    const breadcrumbScript = document.createElement("script");
+    breadcrumbScript.type = "application/ld+json";
+    breadcrumbScript.textContent = JSON.stringify(breadcrumb);
+    document.head.appendChild(breadcrumbScript);
+  }
+
+  // --- 📑 Dynamic Table of Contents (TOC) ---
   const headings = document.querySelectorAll(".post-body h2, .post-body h3");
   if (headings.length) {
     const toc = document.createElement("div");
@@ -108,7 +139,7 @@
     document.querySelector(".post-body")?.prepend(toc);
   }
 
-  // --- Internal Keyword Linking ---
+  // --- 🔗 Auto Internal Keyword Linking ---
   const relatedLinks = [
     { keyword: "Google Docs", url: "/2025/06/google-docs-template-guide.html" },
     { keyword: "affiliate marketing", url: "/2025/06/affiliate-marketing-for-beginners.html" },
@@ -124,7 +155,7 @@
     });
   });
 
-  // --- Ad Insertion ---
+  // --- 💰 Ad Insertion (after 3rd paragraph) ---
   const adHTML = `
     <div class="injected-ad" style="text-align:center;margin:20px 0">
       <!-- Replace with your AdSense Code -->
@@ -139,7 +170,7 @@
     paragraphs[2].insertAdjacentHTML("afterend", adHTML);
   }
 
-  // --- Google Analytics Injector ---
+  // --- 📊 Google Analytics (GA4) Auto Injector ---
   const analyticsID = "G-8CJ4YJYMSV"; // Replace with your GA4 ID
   if (analyticsID) {
     const gtagScript = document.createElement("script");
@@ -157,81 +188,3 @@
     document.head.appendChild(configScript);
   }
 })();
-
-<!-- ✅ MaxClickEmpire Full SEO Structured Data Injection -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-
-    /* 📝 BlogPosting Schema */
-    {
-      "@type": "BlogPosting",
-      "headline": "MaxClickEmpire – Affiliate Marketing, Google Docs Templates, AI Tools",
-      "description": "MaxClickEmpire empowers creators and marketers with proven affiliate marketing strategies, AI-powered productivity tools, Google Docs resume & planner templates, blogging monetization hacks, SEO tips, and digital business blueprints.",
-      "author": {
-        "@type": "Person",
-        "name": "Ogunlana Akinola Okikiola"
-      },
-      "datePublished": "2025-06-25T00:00:00Z",
-      "dateModified": "2025-06-25T00:00:00Z",
-      "image": "https://www.maxclickempire.com/favicon.ico",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://www.maxclickempire.com/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "MaxClickEmpire",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://www.maxclickempire.com/favicon.ico"
-        }
-      }
-    },
-
-    /* 🧭 BreadcrumbList Schema */
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://www.maxclickempire.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog Post Title",
-          "item": "https://www.maxclickempire.com/2025/06/example-blog-post.html"
-        }
-      ]
-    },
-
-    /* ❓ FAQPage Schema */
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is MaxClickEmpire?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "MaxClickEmpire is a platform providing affiliate marketing strategies, Google Docs tools, and productivity guides."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I make money with MaxClickEmpire?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "You can follow guides on monetization, use Google Docs templates, and learn affiliate strategies."
-          }
-        }
-      ]
-    }
-
-  ]
-}
-</script>
