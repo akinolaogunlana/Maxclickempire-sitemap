@@ -1,22 +1,159 @@
-(function () { const getText = (selector) => document.querySelector(selector)?.innerText?.trim() || ""; const getAttr = (selector, attr) => document.querySelector(selector)?.getAttribute(attr) || "";
+// Blogger Ultra SEO & Engagement Injector (Improved)
+(function () {
+  const getText = (selector) => document.querySelector(selector)?.innerText?.trim() || "";
+  const getAttr = (selector, attr) => document.querySelector(selector)?.getAttribute(attr) || "";
 
-const title = getText("h1.post-title") || document.title || "MaxClickEmpire – Affiliate Marketing, Google Docs Templates, AI Tools"; const description = document.querySelector("meta[name='description']")?.content?.trim() || "MaxClickEmpire empowers creators and marketers with proven affiliate marketing strategies, AI-powered productivity tools, Google Docs resume & planner templates, blogging monetization hacks, SEO tips, and digital business blueprints."; const url = window.location.href; const author = "Ogunlana Akinola Okikiola"; const logo = "https://www.maxclickempire.com/favicon.ico"; const image = document.querySelector("img")?.src || logo; const publishedTime = getAttr("abbr.published", "title") || new Date().toISOString(); const modifiedTime = new Date().toISOString();
+  const title = getText("h1.post-title") || document.title || "MaxClickEmpire – Affiliate Marketing, Google Docs Templates, AI Tools";
+  const description = document.querySelector("meta[name='description']")?.content?.trim() || "MaxClickEmpire empowers creators and marketers with proven affiliate marketing strategies, AI-powered productivity tools, Google Docs resume & planner templates, blogging monetization hacks, SEO tips, and digital business blueprints.";
+  const url = window.location.href;
+  const author = "Ogunlana Akinola Okikiola";
+  const logo = "https://www.maxclickempire.com/favicon.ico";
+  const image = document.querySelector(".post-body img")?.src || logo;
+  const publishedTime = getAttr("abbr.published", "title") || new Date().toISOString();
+  const modifiedTime = new Date().toISOString();
+  const isHome = location.pathname === "/";
 
-// === Canonical URL === const canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); canonical.setAttribute('href', window.location.href.split('?')[0]); document.head.appendChild(canonical);
+  // --- Remove Existing Conflicting Meta Tags ---
+  const metaNames = ["og:title", "og:description", "og:url", "og:type", "twitter:title", "twitter:description", "twitter:image", "twitter:card"];
+  metaNames.forEach(name => {
+    document.querySelectorAll(`meta[property='${name}'], meta[name='${name}']`).forEach(el => el.remove());
+  });
 
-// === Noindex tag pages === if (window.location.href.includes("/search/label/") || window.location.href.includes("/archive")) { const noindex = document.createElement("meta"); noindex.name = "robots"; noindex.content = "noindex"; document.head.appendChild(noindex); }
+  // --- Meta Tag Injection ---
+  const metas = [
+    { name: "description", content: description },
+    { name: "author", content: author },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:type", content: isHome ? "website" : "article" },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image }
+  ];
+  metas.forEach(tag => {
+    const meta = document.createElement("meta");
+    Object.entries(tag).forEach(([k, v]) => meta.setAttribute(k, v));
+    document.head.appendChild(meta);
+  });
 
-// === Add missing alt attributes to images === const imgs = document.querySelectorAll(".post-body img"); imgs.forEach(img => { if (!img.alt || img.alt.trim() === "") { img.alt = title; } img.loading = "lazy"; // Improve loading speed });
+  // --- JSON-LD BlogPosting Schema ---
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "author": { "@type": "Person", "name": author },
+    "datePublished": publishedTime,
+    "dateModified": modifiedTime,
+    "image": image,
+    "mainEntityOfPage": { "@type": "WebPage", "@id": url },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MaxClickEmpire",
+      "logo": { "@type": "ImageObject", "url": logo }
+    }
+  };
+  const blogScript = document.createElement("script");
+  blogScript.type = "application/ld+json";
+  blogScript.textContent = JSON.stringify(blogSchema);
+  document.head.appendChild(blogScript);
 
-// === Remove old conflicting meta tags === const removeOld = [ "og:title", "og:description", "og:url", "og:type", "twitter:title", "twitter:description", "twitter:image", "twitter:card" ]; removeOld.forEach(name => { const el = document.querySelector(meta[property='${name}'], meta[name='${name}']); if (el) el.remove(); });
+  // --- FAQ Schema Markup ---
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is MaxClickEmpire?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MaxClickEmpire is a platform providing affiliate marketing strategies, Google Docs tools, and productivity guides."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I make money with MaxClickEmpire?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can follow guides on monetization, use Google Docs templates, and learn affiliate strategies."
+        }
+      }
+    ]
+  };
+  const faqScript = document.createElement("script");
+  faqScript.type = "application/ld+json";
+  faqScript.textContent = JSON.stringify(faqSchema);
+  document.head.appendChild(faqScript);
 
-// === Inject new meta tags === const metas = [ { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "article" }, { property: "og:url", content: url }, { property: "og:image", content: image }, { name: "twitter:card", content: "summary_large_image" }, { name: "twitter:title", content: title }, { name: "twitter:description", content: description }, { name: "twitter:image", content: image } ]; metas.forEach(tag => { const meta = document.createElement("meta"); Object.keys(tag).forEach(k => meta.setAttribute(k, tag[k])); document.head.appendChild(meta); });
+  // --- Dynamic Table of Contents ---
+  const headings = document.querySelectorAll(".post-body h2, .post-body h3");
+  if (headings.length) {
+    const toc = document.createElement("div");
+    toc.id = "toc";
+    toc.innerHTML = '<h2>📑 Table of Contents</h2><ul></ul>';
+    const ul = toc.querySelector("ul");
 
-// === Inject BlogPosting Schema === const schema = { "@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "description": description, "author": { "@type": "Person", "name": author }, "datePublished": publishedTime, "dateModified": modifiedTime, "image": image, "mainEntityOfPage": { "@type": "WebPage", "@id": url }, "publisher": { "@type": "Organization", "name": "MaxClickEmpire", "logo": { "@type": "ImageObject", "url": logo } } }; const schemaScript = document.createElement("script"); schemaScript.type = "application/ld+json"; schemaScript.textContent = JSON.stringify(schema); document.head.appendChild(schemaScript);
+    headings.forEach((heading, index) => {
+      const id = `toc-${index}`;
+      heading.id = id;
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="#${id}">${heading.innerText}</a>`;
+      ul.appendChild(li);
+    });
 
-// === Auto Table of Contents === const headings = document.querySelectorAll(".post-body h2, .post-body h3"); if (headings.length) { const toc = document.createElement("div"); toc.id = "toc"; toc.style.cssText = "background:#f9f9f9;padding:15px;border:1px solid #ddd;margin:20px 0;font-size:16px;border-radius:8px"; toc.innerHTML = "<h2>📑 Table of Contents</h2><ul></ul>"; const ul = toc.querySelector("ul"); headings.forEach((h, i) => { const id = "toc-" + i; h.id = id; const li = document.createElement("li"); li.innerHTML = <a href=\"#${id}\" style=\"text-decoration:none;color:#0066cc\">${h.innerText}</a>; ul.appendChild(li); }); document.querySelector(".post-body")?.insertAdjacentElement("afterbegin", toc); }
+    document.querySelector(".post-body")?.prepend(toc);
+  }
 
-// === FAQ Schema === const faqs = Array.from(document.querySelectorAll(".post-body h4")).map(h => { const question = h.innerText; const answer = h.nextElementSibling?.innerText || ""; return answer ? { "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } } : null; }).filter(Boolean); if (faqs.length > 0) { const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs }; const faqScript = document.createElement("script"); faqScript.type = "application/ld+json"; faqScript.textContent = JSON.stringify(faqSchema); document.head.appendChild(faqScript); }
+  // --- Internal Keyword Linking ---
+  const relatedLinks = [
+    { keyword: "Google Docs", url: "/2025/06/google-docs-template-guide.html" },
+    { keyword: "affiliate marketing", url: "/2025/06/affiliate-marketing-for-beginners.html" },
+    { keyword: "OpenAI", url: "/2025/06/openai-tools-for-bloggers.html" }
+  ];
+  const paragraphs = document.querySelectorAll(".post-body p");
+  paragraphs.forEach(p => {
+    relatedLinks.forEach(({ keyword, url }) => {
+      const regex = new RegExp(`\\b(${keyword})\\b(?!([^<]+)?>)`, 'gi');
+      if (!p.innerHTML.includes(url)) {
+        p.innerHTML = p.innerHTML.replace(regex, `<a href="${url}">$1</a>`);
+      }
+    });
+  });
 
-// === Internal Links by Keyword === const keywords = { "affiliate marketing": "https://www.maxclickempire.com/search?q=affiliate+marketing", "Google Docs templates": "https://www.maxclickempire.com/search?q=docs+template", "AI tools": "https://www.maxclickempire.com/search?q=ai+tools", "blogging tips": "https://www.maxclickempire.com/search?q=blogging" }; const postBody = document.querySelector(".post-body"); if (postBody) { let html = postBody.innerHTML; Object.keys(keywords).forEach(term => { const link = <a href=\"${keywords[term]}\" style=\"color:#3366cc;text-decoration:underline\">${term}</a>; const regex = new RegExp((?<!<a[^>]*?>)(${term})(?![^<]*?</a>), "i"); html = html.replace(regex, link); }); postBody.innerHTML = html; } })();
+  // --- Ad Insertion ---
+  const adHTML = `
+    <div class="injected-ad" style="text-align:center;margin:20px 0">
+      <!-- Replace with your AdSense Code -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-xxxxxxxxxx"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>`;
+  if (paragraphs.length > 2) {
+    paragraphs[2].insertAdjacentHTML("afterend", adHTML);
+  }
 
+  // --- Google Analytics Injector ---
+  const analyticsID = "G-XXXXXXXXXX"; // Replace with your GA4 ID
+  if (analyticsID) {
+    const gtagScript = document.createElement("script");
+    gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsID}`;
+    gtagScript.async = true;
+    document.head.appendChild(gtagScript);
+
+    const configScript = document.createElement("script");
+    configScript.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${analyticsID}');
+    `;
+    document.head.appendChild(configScript);
+  }
+})();
